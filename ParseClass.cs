@@ -275,9 +275,9 @@ internal class ParseClass(IEnumerable<ClassDeclarationSyntax> list, Compilation 
     }
     private void PopulatePossibleError(TableModel cc, INamedTypeSymbol makeType)
     {
-        if (makeType.Implements("ISimpleDapperEntity") == false)
+        if (makeType.Implements("ISimpleDatabaseEntity") == false)
         {
-            cc.ErrorMessage = $"{cc.ClassName} class needs to implement ISimpleDapperEntity interface for ids";
+            cc.ErrorMessage = $"{cc.ClassName} class needs to implement ISimpleDatabaseEntity interface for ids";
         }
         else
         {
