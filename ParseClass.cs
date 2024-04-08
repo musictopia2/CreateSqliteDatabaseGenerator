@@ -185,7 +185,7 @@ internal class ParseClass(IEnumerable<ClassDeclarationSyntax> list, Compilation 
                             var data = temp.Single();
                             other.Name = data.ConstructorArguments.Single().Value!.ToString();
                         }
-                        if (other.Name == "ID")
+                        if (other.Name.ToLower() == "id")
                         {
                             other.IsPrimaryKey = true;
                             if (p.HasAttribute("NoIncrement") == false)
@@ -195,6 +195,11 @@ internal class ParseClass(IEnumerable<ClassDeclarationSyntax> list, Compilation 
                         }
                         var call = GetPropertyCall(fourths, p, makeType);
                         other.Nullable = call is not null;
+                        //needs another condition.  because the model should determine whether this is nullable or not.
+                        if (p.Type.Name == "Nullable")
+                        {
+                            other.Nullable = true; //try this as well (?)
+                        }
                         call = GetPropertyCall(thirds, p, makeType);
                         bool dateException = call is not null;
                         if (dateException)
@@ -263,6 +268,10 @@ internal class ParseClass(IEnumerable<ClassDeclarationSyntax> list, Compilation 
                             {
                                 other.NeedsAutoIncrement = true;
                             }
+                        }
+                        if (p.Type.Name == "Nullable")
+                        {
+                            other.Nullable = true; //try this as well (?)
                         }
                         PopulateSqliteType(other, false);
                         cc.Columns.Add(other);
