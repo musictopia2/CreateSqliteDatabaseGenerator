@@ -4,7 +4,8 @@ internal static class SourceBuilderExtensions
     public static void WriteCreateDatabaseStub(this SourceCodeStringBuilder builder, Action<ICodeBlock> action, string mainNameSpace)
     {
         //global using cc1 = ManuallyCreateSqliteDatabase.CreateClass;
-        builder.WriteLine(w =>
+        builder.WriteLine("#nullable enable")
+        .WriteLine(w =>
         {
             w.Write("global using cc1 = ")
             .Write(mainNameSpace)
