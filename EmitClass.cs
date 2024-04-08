@@ -1,5 +1,5 @@
 ﻿namespace CreateSqliteDatabaseGenerator;
-internal class EmitClass(BasicList<ResultsModel> results, SourceProductionContext context)
+internal class EmitClass(ImmutableArray<ResultsModel> results, SourceProductionContext context)
 {
     private BasicList<TableModel> GetTableErrors()
     {
@@ -57,10 +57,14 @@ internal class EmitClass(BasicList<ResultsModel> results, SourceProductionContex
             }
             hadErrors = true;
         }
-        if (results.Count == 0)
+        if (results.Any() == false)
         {
             return;
         }
+        //if (results.Count == 0)
+        //{
+        //    return;
+        //}
         var seconds = GetTableErrors();
         if (seconds.Count != 0)
         {
