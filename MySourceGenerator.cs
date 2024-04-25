@@ -1,8 +1,6 @@
 ﻿namespace CreateSqliteDatabaseGenerator;
 [Generator] //this is important so it knows this class is a generator which will generate code for a class using it.
-#pragma warning disable RS1036 // Specify analyzer banned API enforcement setting
 public class MySourceGenerator : IIncrementalGenerator
-#pragma warning restore RS1036 // Specify analyzer banned API enforcement setting
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -24,7 +22,7 @@ public class MySourceGenerator : IIncrementalGenerator
         //step 3
         var declares3 = declares2.SelectMany(static (x, _) =>
         {
-            ImmutableHashSet<ClassDeclarationSyntax> start = x.Right.ToImmutableHashSet();
+            ImmutableHashSet<ClassDeclarationSyntax> start = [.. x.Right];
             return GetResults(start, x.Left);
         });
         //step 4
@@ -57,7 +55,7 @@ public class MySourceGenerator : IIncrementalGenerator
     {
         ParseClass parses = new(classes, compilation);
         BasicList<ResultsModel> output = parses.GetResults();
-        return output.ToImmutableHashSet();
+        return [.. output];
     }
     private ClassDeclarationSyntax? GetTarget(GeneratorSyntaxContext context)
     {
